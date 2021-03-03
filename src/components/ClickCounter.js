@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Context } from "../store/Store";
 import styled from "styled-components";
 import GlobalState from "../GlobalState";
 
@@ -12,6 +13,7 @@ export default function ClickCounter() {
   const [count, setCount] = useState(0);
   const [exampleObject, setExampleObject] = useState({ a: 1, b: 2, c: 3 });
   let { globalState, setGlobalState } = GlobalState();
+  const [state, dispatch] = useContext(Context);
 
   useEffect(() => {
     console.log(exampleObject);
@@ -35,6 +37,20 @@ export default function ClickCounter() {
 
   return (
     <div>
+      <div>App state (stringified) is: {JSON.stringify(state)}</div>
+      <button
+          onClick={() => {
+            dispatch({ 
+            type: "TEST_CASE",
+            key: "a", 
+            payload: state['a'] + 1 
+          })}
+        }
+      >
+              increase 'a' of store
+      </button>
+
+      
       <p>Count is {count}</p>
       <button
         onClick={() => {
@@ -43,7 +59,6 @@ export default function ClickCounter() {
       >
         click me
       </button>
-
       <p>{globalState.username}</p>
       <form>
         <label>
@@ -77,7 +92,6 @@ export default function ClickCounter() {
         <li>{exampleObject.b}</li>
         <li>{exampleObject.c}</li>
       </ul>
-
       <button
         onClick={() => {
           return randomizeObject(exampleObject);
@@ -85,7 +99,6 @@ export default function ClickCounter() {
       >
         Randomize exampleObject
       </button>
-
       <Wrapper>
         <h3>
           Hooks are JavaScript functions, but they impose two additional rules:

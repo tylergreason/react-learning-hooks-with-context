@@ -3,7 +3,7 @@ const Reducer = (state, action) => {
     case "TEST_CASE":
       return {
         ...state,
-        [action.prop]: action.payload,
+        [action.key]: action.payload,
       };
     default:
       return state;
